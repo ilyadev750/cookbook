@@ -39,9 +39,8 @@ nav{ position:relative;padding: 0px 0 0 0;}
 
 
 .sf-menu>li>a{
-	font-size: 20px;
-	font-family: 'Glegoo', serif;
-	color: #d3cfcf;
+	font-size: 16px;
+	font-family: 'PT Sans Narrow', sans-serif;
 	position: relative;
 	line-height: 20px;
 	z-index: 999;
