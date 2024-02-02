@@ -6,7 +6,7 @@ from products.models import Product
 class Recepie(models.Model):
     recepie_name = models.CharField(max_length=50, unique=True)
     recepie_image = models.ImageField(upload_to='media/')
-    username = models.CharField(max_length=50)
+    username_id = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=50, unique=True)
 
 class Quantity(models.Model):

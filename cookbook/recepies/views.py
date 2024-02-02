@@ -3,6 +3,7 @@ from pytils.translit import slugify
 from models import Recepie
 from .forms import CreateRecepieForm
 from products.forms import AddProductForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -14,7 +15,7 @@ def create_recepie(request):
             recepie.recepie_name = recepie_form.cleaned_data["recepie_name"]
             recepie.recepie_image = recepie_form.cleaned_data["image"]
             recepie.slug = slugify(recepie.recepie_name)
-            recepie.username = request.user.username
+            recepie.username_id = (User.objects.get(username=request.user.username)).id
             recepie.save() 
             product_form = AddProductForm()
             context = {'recepie_name': recepie.recepie_name, 'recepie_image': recepie.recepie_image, 'product_form': product_form}

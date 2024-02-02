@@ -21,5 +21,6 @@ from cookbook import settings
 
 urlpatterns = [
     path('', include('main.urls')),
+    path('', include('users.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

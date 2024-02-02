@@ -75,7 +75,7 @@ $(document).ready(function () {
         <nav>
           <ul class="sf-menu">
             {% if user.is_authenticated %}
-              <li><a href={% url 'home' %}>{{ user.username }}</a></li>
+              <li><a href="#">{{ user.username }}</a></li>
               <li><a href="products.html">Рецепты</a></li>
               <li><a href="recipes.html">Поиск рецептов</a></li>
               <li><a href="recipes.html">Мои рецепты</a></li>
