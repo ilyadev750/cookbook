@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>{% block title %} {% endblock %}</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <link rel="icon" href={% static "images/favicon.ico" %}>
 <link rel="shortcut icon" href={% static "images/favicon.ico" %}>
@@ -63,8 +62,10 @@ $(document).ready(function () {
 <script src="js/html5shiv.js"></script>
 <link rel="stylesheet" media="screen" href="css/ie.css">
 <![endif]-->
+<title>{% block title %} {% endblock %}</title>
+
+
 </head>
-<body class="page1">
 <header>
   <div class="container_12">
     <div class="grid_12">
@@ -73,10 +74,10 @@ $(document).ready(function () {
         <nav>
           <ul class="sf-menu">
             {% if user.is_authenticated %}
-              <li><a href="#">{{ user.username }}</a></li>
+              <li><a href={% url 'home' %}>{{ user.username }}</a></li>
               <li><a href="products.html">Рецепты</a></li>
               <li><a href="recipes.html">Поиск рецептов</a></li>
-              <li><a href="recipes.html">Мои рецепты</a></li>
+              <li><a href={% url 'get_user_recepies' username=user.username %}>Мои рецепты</a></li>
               <li><a href={% url 'logout' %}>Выйти из аккаунта</a></li>
             {% else %}
               <li class="current"><a href={% url 'home' %}>Главная</a></li>

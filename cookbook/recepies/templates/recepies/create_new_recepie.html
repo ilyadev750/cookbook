@@ -1,29 +1,29 @@
-{% extends "users/base.html" %}
+{% extends 'recepies/base.html' %} 
 {% load static %} 
 
 
 {% block title %}
-Регистрация
+Создать рецепт
 {% endblock %}
 
 {% block content %}
 
 <div class="content">
   <div class="container_12">
-    <div class="grid_6 prefix_1">
-      <h3>Регистрация</h3>
+    <div class="grid_7">
+      <h4>Создать новый рецет</h4>
       <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% for field in form %}
+        {{ form.media }}
+        {% for field in recepie_form %}
           {{ field.errors }}
           <p>{{ field.label_tag }}</p> 
           <p>{{ field }}</p>
         {% endfor %}
-        <button class="login-button" type="submit" name="login">Зарегистрироваться</button>
+        {{ error }}
       </form>
     </div>
-  </div>  
+  </div>
 </div>
-
 
 {% endblock %}

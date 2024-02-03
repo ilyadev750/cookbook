@@ -12,7 +12,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("my_recepies", request.user.username)
+            return redirect("get_user_recepies", request.user.username)
         else:
             form = AuthenticationForm()
             context = {"form": form, "error": 'Invalid login or password, try again!'}
