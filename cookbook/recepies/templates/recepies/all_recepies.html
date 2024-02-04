@@ -10,7 +10,7 @@
 
 {% for recepie in recepies %}
   <div class="grid_7">
-    <div class="blog"> <img src={{ recepie.recepie_image }} alt="" class="img_inner fleft">
+    <div class="blog"> <img src={{ recepie.recepie_image.url }} alt="" class="img_inner fleft">
       <div class="extra_wrapper">
         <h4><a href="#">{{ recepie.recepie_name }}</a></h4>
         <a href="#" class="link1">Learn More</a> </div>

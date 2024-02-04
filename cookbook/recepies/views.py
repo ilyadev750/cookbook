@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.db import IntegrityError
 from pytils.translit import slugify
 from .models import Recepie
 from .forms import CreateRecepieForm
@@ -20,17 +21,23 @@ def get_user_recepies(request, *args, **kwargs):
 
 def create_recepie(request,  *args, **kwargs):
     if request.method == 'POST':
-        recepie_form = CreateRecepieForm(request.POST)
+        recepie_form = CreateRecepieForm(request.POST, request.FILES)
         if recepie_form.is_valid():
-            recepie = Recepie()
-            recepie.recepie_name = recepie_form.cleaned_data["recepie_name"]
-            recepie.recepie_image = recepie_form.cleaned_data["image"]
-            recepie.slug = slugify(recepie.recepie_name)
-            recepie.username_id = (User.objects.get(username=request.user.username)).id
-            recepie.save() 
-            product_form = AddProductForm()
-            context = {'recepie_name': recepie.recepie_name, 'recepie_image': recepie.recepie_image, 'product_form': product_form}
-            return render(request, "products/add_product.html", context)
+            try:
+                recepie = Recepie()
+                recepie.recepie_name = recepie_form.cleaned_data["recepie_name"]
+                recepie.recepie_image = recepie_form.cleaned_data["image"]
+                recepie.slug = slugify(recepie.recepie_name)
+                recepie.username_id = User.objects.get(username=request.user.username)
+                recepie.save() 
+                product_form = AddProductForm()
+                context = {'recepie': recepie, 'username':request.user.username, 'product_form': product_form, 'products': ''}
+                return render(request, "products/get_recepie_products.html", context)
+            except IntegrityError as exception:
+                recepie_form = CreateRecepieForm()
+                context = {'recepie_form': recepie_form, 'error': 'Рецепт с таким названием существует!' }
+                return render(request, "recepies/create_new_recepie.html", context)
+
         else:
             recepie_form = CreateRecepieForm()
             context = {'message_error': 'Пожалуйста, введите данные по новому рецепту!', 'recepie_form': recepie_form }

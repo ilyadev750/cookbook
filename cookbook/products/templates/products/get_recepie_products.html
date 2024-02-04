@@ -1,0 +1,46 @@
+{% extends 'recepies/base.html' %} 
+{% load static %} 
+
+
+{% block title %}
+Добавить продукты
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<div class="content">
+  <div class="container_12">
+    <div class="grid_7">
+      <div class="blog"> <img src={{ recepie.recepie_image.url }} width="200" height="200" loading="lazy" alt="" class="img_inner fleft">
+        <div class="extra_wrapper">
+          <h4><a href="#">{{ recepie.recepie_name }}</a></h4>
+        </div>
+      </div>
+    </div>
+    <div class="grid_4">
+      <div class="blog"> 
+        {% for product in products %}
+        <div class="extra_wrapper">
+          <h4>{{ product.name }}, {{ product.weight }}</h4>
+        </div>
+        {% endfor %}
+      </div>
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {% for field in product_form %}
+          <p>{{ field.label_tag }}</p> 
+          <p>{{ field }}</p>
+        {% endfor %}
+        <div>
+          <button class="register-button" type="submit" name="register">Добавить продукт к рецепту</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

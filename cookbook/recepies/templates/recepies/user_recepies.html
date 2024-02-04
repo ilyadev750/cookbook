@@ -10,12 +10,18 @@
 
 {% for recepie in user_recepies %}
   <div class="grid_7">
-    <div class="blog"> <img src={{ recepie.recepie_image }} alt="" class="img_inner fleft">
+    <div class="blog"> <img src={{ recepie.recepie_image.url }} width="200" height="200" loading="lazy" alt="" class="img_inner fleft">
       <div class="extra_wrapper">
         <h4><a href="#">{{ recepie.recepie_name }}</a></h4>
         <a href="#" class="link1">Редактировать</a> </div>
         <a href="#" class="link1">Удалить</a> </div>
     </div>
+  </div>
+  <div class="extra_wrapper">
+    <h4><a href="#">Amus at magna non nuno </a></h4>
+    <time datetime="2045-01-01">October 13, 2045</time>
+    Hew ipsum dolor sit aconsectetur adipiscing elit. In mollis erat mat. neque facilisis, sit amet ultricies erat rutrum. Cras facilisis, nulla vel viverra auctor, leo ame magna sodales felis, quis malesuada nibh odio ut velit. Proin pharetra luctus dia a scelerisqu. <br>
+    <a href="#" class="link1">Learn More</a> 
   </div>
 {% endfor %}
 
