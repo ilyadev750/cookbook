@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('<str:username>/<slug:recepie_slug>/products', get_recepie_products, name='products'),
+    path('<str:username>/<slug:recepie_slug>/products', get_recepie_products, name='get_recepie_products'),
     # path('all_recepies/', get_all_recepies, name='get_all_recepies'),
     # path('<str:username>/recepies', get_user_recepies, name='get_user_recepies'),
     # # path('<str:username>/recepies/<str:recepie_name>'),

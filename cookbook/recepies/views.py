@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.db import IntegrityError
 from pytils.translit import slugify
 from .models import Recepie
@@ -29,15 +30,15 @@ def create_recepie(request,  *args, **kwargs):
                 recepie.recepie_image = recepie_form.cleaned_data["image"]
                 recepie.slug = slugify(recepie.recepie_name)
                 recepie.username_id = User.objects.get(username=request.user.username)
-                recepie.save() 
-                product_form = AddProductForm()
-                context = {'recepie': recepie, 'username':request.user.username, 'product_form': product_form, 'products': ''}
-                return render(request, "products/get_recepie_products.html", context)
+                recepie.save()
+                request.session['recepie_name'] = recepie.recepie_name
+                request.session['recepie_image'] = recepie.recepie_image.url
+                request.session['recepie_id'] = recepie.pk
+                return redirect('get_recepie_products', request.user.username, recepie.slug)
             except IntegrityError as exception:
                 recepie_form = CreateRecepieForm()
                 context = {'recepie_form': recepie_form, 'error': 'Рецепт с таким названием существует!' }
                 return render(request, "recepies/create_new_recepie.html", context)
-
         else:
             recepie_form = CreateRecepieForm()
             context = {'message_error': 'Пожалуйста, введите данные по новому рецепту!', 'recepie_form': recepie_form }
