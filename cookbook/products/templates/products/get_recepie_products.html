@@ -10,24 +10,24 @@
 {% block content %}
 
 
-
 <div class="content">
   <div class="container_12">
     <div class="grid_7">
       <div class="blog"> <img src={{ recepie_image }} width="200" height="200" loading="lazy" alt="" class="img_inner fleft">
         <div class="extra_wrapper">
           <h4><a href="#">{{ recepie_name }}</a></h4>
+          <p></p>
+          <h4>Состав:</h4>
+          {% for product in products %}
+            <div class="extra_wrapper">
+              <h4>{{ product.product_id.product_name }}, {{ product.weight }} гр.</h4>
+              <a href="{% url 'delete_product_from_recepie' product.recepie_id.pk product.product_id.pk %}">Удалить</a>
+            </div>
+          {% endfor %}
         </div>
       </div>
     </div>
     <div class="grid_4">
-      <div class="blog"> 
-        {% for product in products %}
-        <div class="extra_wrapper">
-          <h4>{{ product.name }}, {{ product.weight }}</h4>
-        </div>
-        {% endfor %}
-      </div>
       <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.media }}
@@ -40,7 +40,7 @@
         </div>
       </form>
     </div>
-    <a href="{% url 'cook_recepie' username=user.username %}" > Приготовить рецепт </a>
+    <a href="{% url 'cook_recepie' user.username recepie_id %}" > Приготовить рецепт </a>
   </div>
 
 </div>

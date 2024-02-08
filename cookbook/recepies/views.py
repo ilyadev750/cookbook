@@ -49,10 +49,16 @@ def create_recepie(request,  *args, **kwargs):
         context = {'recepie_form': recepie_form}
         return render(request, "recepies/create_new_recepie.html", context)
 
-def cook_recepie(request,  *args, **kwargs):
-    recepie_id = request.session['recepie_id']
+def cook_recepie(request, username, recepie_id):
     products = Quantity.objects.filter(recepie_id=recepie_id)
     for product in products:
         product.product_id.number_of_recepies += 1
         product.product_id.save()
-    return redirect('get_user_recepies', request.user.username)
+    return redirect('get_user_recepies', username)
+
+def update_recepie(request, recepie_id, slug):
+    products = Quantity.objects.filter(recepie_id=recepie_id)
+    for product in products:
+        product.product_id.number_of_recepies -= 1
+        product.product_id.save()
+    return redirect('get_recepie_products', request.user.username, slug) 

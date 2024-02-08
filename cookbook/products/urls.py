@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import get_recepie_products, add_product_to_recipe
+from .views import get_recepie_products, add_product_to_recipe, delete_product_from_recepie
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('<str:username>/<slug:recepie_slug>/products', get_recepie_products, name='get_recepie_products'),
     path('<int:recepie_id>/<int:product_id>/<int:weight>', add_product_to_recipe, name='add_product_to_recipe'),
+    path('<int:recepie_id>/<int:product_id>/delete', delete_product_from_recepie, name='delete_product_from_recepie'),
     # path('all_recepies/', get_all_recepies, name='get_all_recepies'),
     # path('<str:username>/recepies', get_user_recepies, name='get_user_recepies'),
     # # path('<str:username>/recepies/<str:recepie_name>'),
