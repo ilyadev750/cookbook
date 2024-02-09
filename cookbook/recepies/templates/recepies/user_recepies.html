@@ -13,7 +13,7 @@
     <div class="blog"> <img src={{ recepie.recepie_image.url }} width="200" height="200" loading="lazy" alt="" class="img_inner fleft">
       <div class="extra_wrapper">
         <h4><a href="#">{{ recepie.recepie_name }}</a></h4>
-        <a href="{% url 'update_recepie' recepie.pk recepie.slug %}" class="link1">Редактировать</a> </div>
+        <a href="{% url 'get_recepie_products' username recepie.slug %}" class="link1">Редактировать</a> </div>
         <a href="#" class="link1">Удалить</a> </div>
     </div>
   </div>

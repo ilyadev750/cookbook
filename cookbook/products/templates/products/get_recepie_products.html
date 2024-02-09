@@ -21,7 +21,7 @@
           {% for product in products %}
             <div class="extra_wrapper">
               <h4>{{ product.product_id.product_name }}, {{ product.weight }} гр.</h4>
-              <a href="{% url 'delete_product_from_recepie' product.recepie_id.pk product.product_id.pk %}">Удалить</a>
+              <a href="{{ delete_product_url }}?recepie_id={{ recepie_id }}&product_id={{ product.product_id.pk }}">Удалить</a>
             </div>
           {% endfor %}
         </div>

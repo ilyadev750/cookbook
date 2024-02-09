@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.db import IntegrityError
 from pytils.translit import slugify
 from .models import Recepie, Quantity
@@ -55,10 +54,3 @@ def cook_recepie(request, username, recepie_id):
         product.product_id.number_of_recepies += 1
         product.product_id.save()
     return redirect('get_user_recepies', username)
-
-def update_recepie(request, recepie_id, slug):
-    products = Quantity.objects.filter(recepie_id=recepie_id)
-    for product in products:
-        product.product_id.number_of_recepies -= 1
-        product.product_id.save()
-    return redirect('get_recepie_products', request.user.username, slug) 
