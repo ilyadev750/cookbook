@@ -14,7 +14,7 @@
       <div class="extra_wrapper">
         <h4><a href="#">{{ recepie.recepie_name }}</a></h4>
         <a href="{% url 'get_recepie_products' username recepie.slug %}" class="link1">Редактировать</a> </div>
-        <a href="#" class="link1">Удалить</a> </div>
+        <a href="{{ delete_recepie_url }}?recepie_id={{ recepie.pk }}" class="link1">Удалить</a> </div>
     </div>
   </div>
 {% endfor %}

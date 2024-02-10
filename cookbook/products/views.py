@@ -29,15 +29,29 @@ def delete_product_from_recepie(request, username, recepie_slug):
     product.delete()
     return redirect('get_recepie_products', username, recepie_slug)
 
-def get_recepie_products(request, username, recepie_slug):
-    recepie_id = Recepie.objects.get(slug=recepie_slug)
+def cook_recepie(request, username, recepie_slug):
+    recepie_id = int(request.GET.get('recepie_id'))
     products = Quantity.objects.filter(recepie_id=recepie_id)
+    for product in products:
+        product.product_id.number_of_recepies += 1
+        product.product_id.save()
+    return redirect('get_user_recepies', username)
+
+def get_recepie_products(request, username, recepie_slug):
+    try:
+        recepie_id = Recepie.objects.get(slug=recepie_slug)
+    except ObjectDoesNotExist as exc:
+        recepie_id = None
+    try:
+        products = Quantity.objects.filter(recepie_id=recepie_id)
+    except ObjectDoesNotExist as exc:
+        products = None
     if request.method == "POST":
         product_form = AddProductForm(request.POST)
         if product_form.is_valid():
             product_name = product_form.cleaned_data['product_name'].lower()
             weight = product_form.cleaned_data['weight']
-            recepie_id = request.session['recepie_id']
+            recepie_id = recepie_id.pk
             try:
                 product_id = (Product.objects.get(product_name=product_name)).id
             except ObjectDoesNotExist as exc:
@@ -50,10 +64,11 @@ def get_recepie_products(request, username, recepie_slug):
             url_args = f'?recepie_id={recepie_id}&product_id={product_id}&weight={weight}'
             return redirect(url_base + url_args)
     else:
-        context = {'recepie_name': request.session['recepie_name'], 
-                   'recepie_image': request.session['recepie_image'],
-                   'recepie_id': request.session['recepie_id'],
-                   'delete_product_url': reverse('delete_product_from_recepie', args=[username, recepie_slug]),
-                   'products': products,
-                   'product_form': AddProductForm()}
+        context = {
+                    'recepie': recepie_id,
+                    'delete_product_url': reverse('delete_product_from_recepie', args=[username, recepie_slug]),
+                    'cook_recepie': reverse('cook_recepie', args=[username, recepie_slug]),
+                    'products': products,
+                    'product_form': AddProductForm()
+                    }
         return render(request, 'products/get_recepie_products.html', context)

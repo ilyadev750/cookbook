@@ -20,9 +20,10 @@ from django.conf.urls.static import static
 from cookbook import settings
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('', include('users.urls')),
     path('', include('recepies.urls')),
     path('', include('products.urls')),
-    path('admin/', admin.site.urls),
+    
 ] 

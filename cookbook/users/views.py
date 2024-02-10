@@ -30,7 +30,7 @@ def register_user(request):
             password = form.cleaned_data["password1"]
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect("my_recepies", request.user.username)
+            return redirect("get_user_recepies", request.user.username)
     else:
         form = CustomUserCreationForm()
     return render(request, "users/registration.html", {"form": form})
