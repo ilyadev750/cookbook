@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from recepies.models import Quantity, Recepie
 from .models import Product
+from .functions import get_recepie_id, get_products, create_product_object
 from products.forms import AddProductForm
 
 
@@ -38,14 +39,8 @@ def cook_recepie(request, username, recepie_slug):
     return redirect('get_user_recepies', username)
 
 def get_recepie_products(request, username, recepie_slug):
-    try:
-        recepie_id = Recepie.objects.get(slug=recepie_slug)
-    except ObjectDoesNotExist as exc:
-        recepie_id = None
-    try:
-        products = Quantity.objects.filter(recepie_id=recepie_id)
-    except ObjectDoesNotExist as exc:
-        products = None
+    recepie_id = get_recepie_id(recepie_slug=recepie_slug)
+    products = get_products(recepie_id=recepie_id)
     if request.method == "POST":
         product_form = AddProductForm(request.POST)
         if product_form.is_valid():
@@ -55,9 +50,7 @@ def get_recepie_products(request, username, recepie_slug):
             try:
                 product_id = (Product.objects.get(product_name=product_name)).id
             except ObjectDoesNotExist as exc:
-                new_product = Product()
-                new_product.product_name = product_name
-                new_product.number_of_recepies = 0
+                new_product = create_product_object(product_name=product_name)
                 new_product.save()
                 product_id = new_product.pk
             url_base = reverse('add_product_to_recipe', args=[username, recepie_slug])

@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db import IntegrityError
-from pytils.translit import slugify
-from .models import Recepie, Quantity
-from products.models import Product
-from .forms import CreateRecepieForm
-from products.forms import AddProductForm
+from .models import Recepie
+from .functions import create_recepie_object
+from .forms import CreateRecepieForm, SearchRecepieWithoutProduct
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -27,11 +25,7 @@ def create_recepie(request,  *args, **kwargs):
         recepie_form = CreateRecepieForm(request.POST, request.FILES)
         if recepie_form.is_valid():
             try:
-                recepie = Recepie()
-                recepie.recepie_name = recepie_form.cleaned_data["recepie_name"]
-                recepie.recepie_image = recepie_form.cleaned_data["image"]
-                recepie.slug = slugify(recepie.recepie_name)
-                recepie.username_id = User.objects.get(username=request.user.username)
+                recepie = create_recepie_object(recepie_form=recepie_form, username=request.user.username)
                 recepie.save()
                 return redirect('get_recepie_products', request.user.username, recepie.slug)
             except IntegrityError as exception:
@@ -52,3 +46,7 @@ def delete_recepie(request, username):
     recepie = Recepie.objects.get(pk=recepie_id)
     recepie.delete()
     return redirect('get_user_recepies', username)
+
+def search_recepie_without_product(request):
+    search_product_form = SearchRecepieWithoutProduct(request.GET)
+    
