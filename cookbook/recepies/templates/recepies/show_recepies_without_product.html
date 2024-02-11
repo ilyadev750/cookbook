@@ -1,0 +1,21 @@
+{% extends 'recepies/base.html' %} 
+{% load static %} 
+
+
+{% block title %}
+Рецепты без выбранного продукта
+{% endblock %}
+
+{% block content %}
+
+{% for recepie in recepies %}
+  <div class="grid_7">
+    <div class="blog"> 
+      <div class="extra_wrapper">
+        <h4><a href="#">{{ recepie.recepie_name }}</a></h4>
+        <a href="#" class="link1">Learn More</a> </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}

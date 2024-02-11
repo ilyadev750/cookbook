@@ -6,3 +6,26 @@
 Найти рецепт
 {% endblock %}
 
+{% block content %}
+
+<div class="content">
+  <div class="container_12">
+    <div class="grid_7">
+      <h4>Найти рецепт без выбранного продукта или с содержанием данного продукта меньше или равно 15 грамм</h4>
+      <form action="" method="get" enctype="multipart/form-data">
+        {{ form.media }}
+        {% for field in form %}
+          {{ field.errors }}
+          <p>{{ field.label_tag }}</p> 
+          <p>{{ field }}</p>
+        {% endfor %}
+        {{ error }}
+        <div>
+          <button class="register-button" type="submit" name="register">Найти рецепт</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

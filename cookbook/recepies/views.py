@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db import IntegrityError
-from .models import Recepie
+from .models import Recepie, Quantity
+from products.models import Product
 from .functions import create_recepie_object
 from .forms import CreateRecepieForm, SearchRecepieWithoutProduct
 from django.contrib.auth.models import User
@@ -47,6 +48,23 @@ def delete_recepie(request, username):
     recepie.delete()
     return redirect('get_user_recepies', username)
 
-def search_recepie_without_product(request):
+def search_recepie_view(request):
     search_product_form = SearchRecepieWithoutProduct(request.GET)
-    
+    if search_product_form.is_valid():
+        product_name = search_product_form.cleaned_data['product_name']
+        product_id = Product.objects.get(product_name=product_name).pk
+        base_url = reverse('show_recepies_without_product')
+        url_args = f'?product_id={product_id}'
+        return redirect(base_url + url_args)
+    else:
+        search_product_form = SearchRecepieWithoutProduct()
+        context = {'form': search_product_form }
+        return render(request, 'recepies/search_recepies.html', context)
+
+def show_recepies_without_product(request):
+    product_id = Product.objects.get(pk=int(request.GET.get('product_id')))
+    recepie_values = Quantity.objects.filter(product_id=product_id).filter(weight__gt=15).values('recepie_id')
+    recepie_values_list = [value['recepie_id'] for value in recepie_values] 
+    recepies = Recepie.objects.exclude(pk__in=recepie_values_list)
+    context = {'recepies': recepies }
+    return render(request, 'recepies/show_recepies_without_product.html', context)
