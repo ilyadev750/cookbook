@@ -1,10 +1,11 @@
 from django.db import models
 
-# Create your models here.
 
 class Product(models.Model):
-    product_name = models.CharField(max_length=50, unique=True, verbose_name='Продукт')
-    number_of_recepies = models.IntegerField(verbose_name='Количество рецептов')
+    product_name = models.CharField(
+        max_length=50, unique=True, verbose_name='Продукт')
+    number_of_recepies = models.IntegerField(
+        verbose_name='Количество рецептов')
 
     class Meta:
         verbose_name = 'продукт'

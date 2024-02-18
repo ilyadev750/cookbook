@@ -1,10 +1,9 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
 
-# Create your views here.
+
 def login_user(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -15,11 +14,13 @@ def login_user(request):
             return redirect("get_user_recepies", request.user.username)
         else:
             form = AuthenticationForm()
-            context = {"form": form, "error": 'Invalid login or password, try again!'}
+            context = {"form": form,
+                       "error": 'Invalid login or password, try again!'}
             return render(request, "users/login.html", context)
     else:
         form = AuthenticationForm()
     return render(request, "users/login.html", {"form": form, "error": ''})
+
 
 def register_user(request):
     if request.method == "POST":
@@ -34,6 +35,7 @@ def register_user(request):
     else:
         form = CustomUserCreationForm()
     return render(request, "users/registration.html", {"form": form})
+
 
 def logout_user(request):
     logout(request)
