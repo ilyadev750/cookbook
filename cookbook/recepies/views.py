@@ -10,23 +10,22 @@ from django.contrib.auth.models import User
 
 
 def get_all_recepies(request):
-    recepies = Recepie.objects.all()
+    recepies = Recepie.objects.all().select_related('username_id')
     context = {'recepies': recepies}
     return render(request, 'recepies/all_recepies.html', context)
 
 
-def get_user_recepies(request, *args, **kwargs):
-    username_id = User.objects.get(username=request.user.username)
-    user_recepies = Recepie.objects.filter(username_id=username_id)
-    delete_recepie_url = reverse('delete_recepie',
-                                 args=[request.user.username])
+def get_user_recepies(request, username):
+    user_recepies = (Recepie.objects.select_related('username_id')
+                     .filter(username_id__username=username))
+    delete_recepie_url = reverse('delete_recepie')
     context = {'user_recepies': user_recepies,
-               'username': request.user.username,
+               'username': username,
                'delete_recepie_url': delete_recepie_url}
     return render(request, 'recepies/user_recepies.html', context)
 
 
-def create_recepie(request,  *args, **kwargs):
+def create_recepie(request):
     if request.method == 'POST':
         recepie_form = CreateRecepieForm(request.POST, request.FILES)
         if recepie_form.is_valid():
@@ -56,11 +55,11 @@ def create_recepie(request,  *args, **kwargs):
         return render(request, "recepies/create_new_recepie.html", context)
 
 
-def delete_recepie(request, username):
+def delete_recepie(request):
     recepie_id = int(request.GET.get('recepie_id'))
     recepie = Recepie.objects.get(pk=recepie_id)
     recepie.delete()
-    return redirect('get_user_recepies', username)
+    return redirect('get_user_recepies')
 
 
 def search_recepie_view(request):
@@ -85,9 +84,8 @@ def search_recepie_view(request):
 
 
 def show_recepies_without_product(request):
-    product_id = Product.objects.get(pk=int(request.GET.get('product_id')))
-    recepie_values = (Quantity.objects
-                      .filter(product_id=product_id)
+    product_id = int(request.GET.get('product_id'))
+    recepie_values = (Quantity.objects.filter(product_id__id=product_id)
                       .filter(weight__gt=15)
                       .values('recepie_id'))
     recepie_values_list = [value['recepie_id'] for value in recepie_values]

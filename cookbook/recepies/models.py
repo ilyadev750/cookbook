@@ -11,6 +11,7 @@ class Recepie(models.Model):
     username_id = models.ForeignKey(User, on_delete=models.CASCADE,
                                     verbose_name='Пользователь')
     slug = models.SlugField(max_length=50, unique=True, verbose_name='URL')
+    product = models.ManyToManyField(Product, through='Quantity')
 
     class Meta:
         verbose_name = 'рецепт'

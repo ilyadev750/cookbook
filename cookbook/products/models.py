@@ -7,6 +7,7 @@ class Product(models.Model):
     number_of_recepies = models.IntegerField(
         verbose_name='Количество рецептов')
 
+
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'Продукты'
