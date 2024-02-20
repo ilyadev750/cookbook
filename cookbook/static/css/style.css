@@ -62,16 +62,17 @@ h1, h2, h3, h4, h5, h6 {
 h3 {
 	font-size: 30px;
 	line-height: 30px;
-	padding-top: 78px;
+	padding-top: 20px;
 	margin-bottom: 44px;
 }
 
 .page1 h3 {
-	padding-top: 0;
+	padding-top: 15px;
 	margin-bottom: 15px;
 }
 
 h4 {
+	padding-top: 15px;
 	font-size: 18px;
 	line-height: 18px;
 	margin-bottom: 12px;
@@ -96,6 +97,9 @@ p {
 
 img {
 	max-width: 100%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 address {
@@ -220,7 +224,7 @@ header {
 	position: relative;
 	z-index: 999;
 	background: url(../images/header_bg.png) 0 0 repeat;
-	padding: 53px 0 0px;
+	/* padding: 53px 0 0px; */
 }
 
 

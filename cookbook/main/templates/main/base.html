@@ -74,13 +74,13 @@ $(document).ready(function () {
           <ul class="sf-menu">
             {% if user.is_authenticated %}
               <li><a href={% url 'home' %}>{{ user.username }}</a></li>
-              <li><a href="products.html">Рецепты</a></li>
+              <li><a href={% url 'get_all_recepies' %}>Рецепты</a></li>
               <li><a href={% url 'search_recepie_without_product' %}>Поиск рецептов</a></li>
               <li><a href={% url 'get_user_recepies' username=user.username %}>Мои рецепты</a></li>
               <li><a href={% url 'logout' %}>Выйти из аккаунта</a></li>
             {% else %}
               <li class="current"><a href={% url 'home' %}>Главная</a></li>
-              <li><a href="products.html">Рецепты</a></li>
+              <li><a href={% url 'get_all_recepies' %}>Рецепты</a></li>
               <li><a href={% url 'search_recepie_without_product' %}>Поиск рецептов</a></li>  
               <li><a href={% url 'login' %}>Вход</a></li>
             {% endif %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.db import IntegrityError
 from .models import Recepie, Quantity
@@ -66,13 +67,20 @@ def search_recepie_view(request):
     search_product_form = SearchRecepieWithoutProduct(request.GET)
     if search_product_form.is_valid():
         product_name = search_product_form.cleaned_data['product_name']
-        product_id = Product.objects.get(product_name=product_name).pk
-        base_url = reverse('show_recepies_without_product')
-        url_args = f'?product_id={product_id}'
-        return redirect(base_url + url_args)
+        try:
+            product_id = Product.objects.get(product_name=product_name).pk
+            base_url = reverse('show_recepies_without_product')
+            url_args = f'?product_id={product_id}'
+            return redirect(base_url + url_args)
+        except ObjectDoesNotExist:
+            search_product_form = SearchRecepieWithoutProduct()
+            context = {'form': search_product_form,
+                       'error': 'Продукта с таким названием не существует'}
+            return render(request, 'recepies/search_recepies.html', context)
     else:
         search_product_form = SearchRecepieWithoutProduct()
-        context = {'form': search_product_form}
+        context = {'form': search_product_form,
+                   'error': ''}
         return render(request, 'recepies/search_recepies.html', context)
 
 

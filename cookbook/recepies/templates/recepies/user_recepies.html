@@ -8,19 +8,24 @@
 
 {% block content %}
 
+<div class="container_12">
+  <h3>Список рецептов</h3>
+</div>
 {% for recepie in user_recepies %}
-  <div class="grid_7">
-    <div class="blog"> <img src={{ recepie.recepie_image.url }} width="200" height="200" loading="lazy" alt="" class="img_inner fleft">
-      <div class="extra_wrapper">
-        <h4><a href="#">{{ recepie.recepie_name }}</a></h4>
-        <a href="{% url 'get_recepie_products' username recepie.slug %}" class="link1">Редактировать</a> </div>
-        <a href="{{ delete_recepie_url }}?recepie_id={{ recepie.pk }}" class="link1">Удалить</a> </div>
+    <div class="container_12">
+      <div class="blog"> <img src={{ recepie.recepie_image.url }} width="200" height="200" loading="lazy" alt="" class="img_inner fleft">
+        <div class="extra_wrapper">
+          <h4><a href="#">{{ recepie.recepie_name }}</a></h4>
+          <a href="{% url 'get_recepie_products' username recepie.slug %}" class="link1">Редактировать</a> </div>
+          <a href="{{ delete_recepie_url }}?recepie_id={{ recepie.pk }}" class="link1">Удалить</a> </div>
+      </div>
     </div>
-  </div>
 {% endfor %}
 
-<a href="{% url 'create_recepie' username=username %}" class="btn-1">
-  Новый рецепт
-</a>
+<div class="container_12">
+  <a href="{% url 'create_recepie' username=username %}" class="extra_wrapper">
+    <h3>Добавить новый рецепт</h2>
+  </a>
+</div>
 
 {% endblock %}
