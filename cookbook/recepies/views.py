@@ -34,7 +34,6 @@ def create_recepie(request):
                                                 username=request.user.username)
                 recepie.save()
                 return redirect('get_recepie_products',
-                                request.user.username,
                                 recepie.slug)
             except IntegrityError:
                 recepie_form = CreateRecepieForm()

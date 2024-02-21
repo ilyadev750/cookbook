@@ -20,8 +20,8 @@
           <h4>Состав:</h4>
           {% for product in products %}
             <div class="extra_wrapper">
-              <h4>{{ product.product_id.product_name }}, {{ product.weight }} гр.</h4>
-              <a href="{{ delete_product_url }}?recepie_id={{ recepie.pk }}&product_id={{ product.product_id.pk }}">Удалить</a>
+              <h4>{{ product.product_id__product_name }}, {{ product.weight }} гр.</h4>
+              <a href="{{ delete_product_url }}?recepie_id={{ recepie.pk }}&product_id={{ product.product_id__pk }}">Удалить</a>
             </div>
           {% endfor %}
         </div>
