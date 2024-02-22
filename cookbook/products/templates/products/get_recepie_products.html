@@ -24,6 +24,10 @@
               <a href="{{ delete_product_url }}?recepie_id={{ recepie.pk }}&product_id={{ product.product_id__pk }}">Удалить</a>
             </div>
           {% endfor %}
+          {% if products %}
+            <h4></h4>
+            <a href="{{ cook_recepie }}?recepie_id={{ recepie.pk }}"><h4>Приготовить рецепт</h4></a>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -41,11 +45,7 @@
         </div>
       </form>
     </div>
-    {% if products %}
-      <a href="{{ cook_recepie }}?recepie_id={{ recepie.pk }}" > Приготовить рецепт </a>
-    {% endif %}
   </div>
-
 </div>
 
 {% endblock %}

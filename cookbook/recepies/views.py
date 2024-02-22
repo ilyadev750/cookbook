@@ -6,7 +6,6 @@ from .models import Recepie, Quantity
 from products.models import Product
 from .functions import create_recepie_object
 from .forms import CreateRecepieForm, SearchRecepieWithoutProduct
-from django.contrib.auth.models import User
 
 
 def get_all_recepies(request):
@@ -58,7 +57,7 @@ def delete_recepie(request):
     recepie_id = int(request.GET.get('recepie_id'))
     recepie = Recepie.objects.get(pk=recepie_id)
     recepie.delete()
-    return redirect('get_user_recepies')
+    return redirect('get_user_recepies', request.user.username)
 
 
 def search_recepie_view(request):
